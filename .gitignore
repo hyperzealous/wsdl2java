@@ -22,3 +22,6 @@ repo/
 consumer/generated*
 out
 .DS_Store
+.settings/
+.project
+.classpath
