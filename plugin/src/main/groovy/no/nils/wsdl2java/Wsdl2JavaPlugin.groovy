@@ -7,6 +7,7 @@ import org.gradle.api.artifacts.Configuration
 class Wsdl2JavaPlugin implements Plugin<Project> {
     public static final String WSDL2JAVA = "wsdl2java"
     public static final String XSD2JAVA = "xsd2java"
+    public static final String FETCH_WSDL = "fetchWsdl"
     public static final String CLEAN = "deleteGeneratedSources"
 
     public static final DEFAULT_DESTINATION_DIR = "build/generatedsources/src/main/java"
@@ -17,6 +18,7 @@ class Wsdl2JavaPlugin implements Plugin<Project> {
 
         Configuration wsdl2javaConfiguration = project.configurations.maybeCreate(WSDL2JAVA)
         Configuration xsd2javaConfiguration = project.configurations.maybeCreate(XSD2JAVA)
+        Configuration fetchWsdlConfiguration = project.configurations.maybeCreate(FETCH_WSDL)
 
         // add xsd2java task with group and a description
         project.task(XSD2JAVA,
@@ -32,6 +34,13 @@ class Wsdl2JavaPlugin implements Plugin<Project> {
                 group: 'Wsdl2Java',
                 description: 'Generate java source code from WSDL files.') {
             classpath = wsdl2javaConfiguration
+        }
+        
+        project.task(FETCH_WSDL,
+        		type: FetchWsdlTask,
+        		group: 'Wsdl2Java',
+        		description: 'Fetch remote WSDL files from URL to disk.') {
+        	conf = fetchWsdlConfiguration
         }
 
         // add cleanXsd task with group and a description
